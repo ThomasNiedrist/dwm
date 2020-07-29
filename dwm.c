@@ -2334,7 +2334,7 @@ bstack(Monitor *m) {
 		if (n == 0)
 				return;
 		if (n > m->nmaster){
-				mh = m->master ? m->mfact * m->wh : 0;
+				mh = m->nmaster ? m->mfact * m->wh : 0;
 				tw = m->ww / (n - m->nmaster);
 				ty = m->wy + mh;
 		} else {
@@ -2348,7 +2348,7 @@ bstack(Monitor *m) {
 				if (i <m->nmaster) {
 						w = (m->ww - mx) / (MIN(n,m->nmaster) - i);
 						resize(c, m->wx +mx, m->wy, w - (2 * c->bw), mh -(2 * c->bw), 0);
-						mx +=WIDTH(x);
+						mx +=WIDTH(c);
 				} else {
 						h = m->wh - mh;
 						resize(c, tx, ty, tw -(2 * c->bw), h -(2 * c->bw), 0);
