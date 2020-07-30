@@ -256,10 +256,11 @@ static int xerror(Display *dpy, XErrorEvent *ee);
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
-static void  bstack(Monitor *m);
+static void bstack(Monitor *m);
 static void bstackhoriz(Monitor *m);
 static void load_xresources(void);
 static void resource_load(XrmDatabase db, char * name, enum resource_type rtype, void *dst);
+static void focusmaster(Arg const * arg);
 
 static pid_t getparentprocess(pid_t p);
 static int isdescprocess(pid_t p, pid_t c);
@@ -2423,6 +2424,21 @@ bstackhoriz(Monitor *m) {
 				ty += HEIGHT(c);
 		}
 	}
+}
+
+
+void
+focusmaster(const Arg *arg)
+{
+	Client *c;
+
+	if (selmon->nmaster < 1)
+		return;
+
+	c = nexttiled(selmon->clients);
+
+	if (c)
+		focus(c);
 }
 
 int
