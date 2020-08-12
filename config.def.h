@@ -9,7 +9,7 @@ static int topbar             = 1;        /* 0 means bottom bar */
 static const int focusonwheel 		= 0;
 static const char *fonts[]          = { "monospace:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
-static char nmormbgcolor[]       = "#222222";
+static char normbgcolor[]       = "#222222";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]       = "#bbbbbb";
 static char selfgcolor[]       = "#eeeeee";
@@ -17,7 +17,7 @@ static char selbordercolor[]   = "#005577";
 static char selbgcolor[]        = "#005577";
 static char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { normfgcolor, nmormbgcolor, normbordercolor },
+	[SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
 	[SchemeSel]  = { selfgcolor, selbgcolor,  selbordercolor  },
 };
 
@@ -48,7 +48,6 @@ static const Layout layouts[] = {
 	{ "[M]",	monocle },
 	{ "TTT",	bstack},
 	{ "===",	bstackhoriz},
-	{ "|||",    col},
 };
 
 /* key definitions */
@@ -105,7 +104,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[3]} },
 	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[4]} },
-	{ MODKEY,                       XK_c,      setlayout,      {.v = &layouts[5]} },
+	{ MODKEY|ShiftMask,             XK_f,      fullscreen,     {0} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
@@ -114,7 +113,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	{ MODKEY|ControlMask            XK_space,  focusmaster,    {0} },
+	{ MODKEY|ControlMask,           XK_space,  focusmaster,    {0} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)

@@ -176,7 +176,7 @@ static void checkotherwm(void);
 static void cleanup(void);
 static void cleanupmon(Monitor *mon);
 static void clientmessage(XEvent *e);
-static void col(Monitor *m);
+static void fullscreen(const Arg *arg);
 static void configure(Client *c);
 static void configurenotify(XEvent *e);
 static void configurerequest(XEvent *e);
@@ -1737,32 +1737,18 @@ tagmon(const Arg *arg)
 	sendmon(selmon->sel, dirtomon(arg->i));
 }
 
-
-col(Monitor *m) {
-	unsigned int i, n, h, w, x, y,mw;
-	Client *c;
-
-	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-	if(n == 0)
-		return;
-        if(n > m->nmaster)
-                mw = m->nmaster ? m->ww * m->mfact : 0;
-        else
-                mw = m->ww;
-	for(i = x = y = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
-		if(i < m->nmaster) {
-			 w = (mw - x) / (MIN(n, m->nmaster)-i);
-                         resize(c, x + m->wx, m->wy, w - (2*c->bw), m->wh - (2*c->bw), False);
-			x += WIDTH(c);
+Layout *last_layout;
+void
+fullscreen(const Arg *arg)
+{
+		if(selmon->showbar){
+				for( last_layout = (Layout*)layouts; last_layout != selmon->lt[selmon->sellt]; last_layout++);
+				setlayout(&((Arg) {.v = &layouts[2]}));
+		} else{
+				setlayout(&((Arg) {.v = last_layout}));
 		}
-		else {
-			h = (m->wh - y) / (n - i);
-			resize(c, x + m->wx, m->wy + y, m->ww - x  - (2*c->bw), h - (2*c->bw), False);
-			y += HEIGHT(c);
-		}
-	}
+		togglebar(arg);
 }
-
 
 void
 tile(Monitor *m)
